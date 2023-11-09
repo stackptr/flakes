@@ -13,7 +13,7 @@
       in
       rec {
         packages = rec {
-          nodejs = freckle.nodejs-16-20-0;
+          nodejs = freckle.nodejs-18-18-x;
           typescript = nixpkgs-23-05.typescript;
         };
         devShells.js =
