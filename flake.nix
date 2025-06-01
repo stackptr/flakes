@@ -1,32 +1,25 @@
 {
   inputs = {
-    nixpkgs-23-05.url = "github:nixos/nixpkgs/nixos-23.05";
-    freckle.url = "github:freckle/flakes?dir=main";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = inputs:
     inputs.flake-utils.lib.eachDefaultSystem (
       system: let
-        nixpkgsArgs = {
+        pkgs = import inputs.nixpkgs {
           inherit system;
           config = {};
         };
-        nixpkgs-23-05 = import inputs.nixpkgs-23-05 nixpkgsArgs;
-        freckle = inputs.freckle.packages.${system};
       in rec {
-        packages = rec {
-          nodejs = freckle.nodejs-18-18-x;
-          typescript = nixpkgs-23-05.typescript;
-        };
-        devShells.js = nixpkgs-23-05.mkShell {
+        devShells.js = pkgs.mkShell {
           name = "js";
-          buildInputs = with packages; [
+          buildInputs = with pkgs; [
             nodejs
             typescript
           ];
         };
         devShells.default = devShells.js;
-        formatter = nixpkgs-23-05.alejandra;
+        formatter = pkgs.alejandra;
       }
     );
 }
