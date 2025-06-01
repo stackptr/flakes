@@ -27,6 +27,7 @@
               ];
           };
         devShells.default = devShells.js;
+        formatter = nixpkgs-23-05.alejandra;
       }
     );
 }
