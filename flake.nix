@@ -1,16 +1,24 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
   };
-  outputs = inputs:
-    inputs.flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = import inputs.nixpkgs {
-          inherit system;
-          config = {};
-        };
-      in rec {
+  outputs = inputs @ {flake-parts, ...}:
+    flake-parts.lib.mkFlake {inherit inputs;} (top @ {
+      config,
+      withSystem,
+      moduleWithSystem,
+      ...
+    }: {
+      systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin"];
+      perSystem = {
+        pkgs,
+        self',
+        ...
+      }: {
         devShells.js = pkgs.mkShell {
           name = "js";
           buildInputs = with pkgs; [
@@ -18,8 +26,8 @@
             typescript
           ];
         };
-        devShells.default = devShells.js;
+        devShells.default = self'.devShells.js;
         formatter = pkgs.alejandra;
-      }
-    );
+      };
+    });
 }
