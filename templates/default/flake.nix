@@ -1,11 +1,12 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
   };
+
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} (top @ {
       config,
@@ -23,25 +24,10 @@
             "stackptr.cachix.org-1:5e2q7OxdRdAtvRmHTeogpgJKzQhbvFqNMmCMw71opZA="
           ];
         };
-        templates.default = {
-          path = ./templates/default;
-          description = "Flake template with preferred formatter and libs";
-        };
       };
       systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin"];
-      perSystem = {
-        pkgs,
-        self',
-        ...
-      }: {
-        devShells.js = pkgs.mkShell {
-          name = "js";
-          buildInputs = with pkgs; [
-            nodejs
-            typescript
-          ];
-        };
-        devShells.default = self'.devShells.js;
+      perSystem = {pkgs, ...}: {
+        devShells.default = pkgs.mkShell {packages = [pkgs.just];};
         formatter = pkgs.alejandra;
       };
     });
