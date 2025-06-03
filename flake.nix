@@ -13,6 +13,17 @@
       moduleWithSystem,
       ...
     }: {
+      flake = {
+        nixConfig = {
+          experimental-features = ["nix-command" "flakes"];
+          extra-substituters = [
+            "https://stackptr.cachix.org"
+          ];
+          extra-trusted-public-keys = [
+            "stackptr.cachix.org-1:5e2q7OxdRdAtvRmHTeogpgJKzQhbvFqNMmCMw71opZA="
+          ];
+        };
+      };
       systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin"];
       perSystem = {
         pkgs,
