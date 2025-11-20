@@ -39,6 +39,7 @@
           buildInputs = with pkgs; [
             deno
             nodejs
+            pnpm_9
             tailwindcss_4
             typescript
           ];
