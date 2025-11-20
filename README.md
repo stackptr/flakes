@@ -1,9 +1,9 @@
 # flakes
 
-JavaScript environment:
+Web development environment:
 
 ```bash
-nix develop github:stackptr/flakes#js
+nix develop github:stackptr/flakes#web
 
 # Also the default shell:
 nix develop github:stackptr/flakes

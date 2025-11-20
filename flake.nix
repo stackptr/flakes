@@ -34,14 +34,14 @@
         self',
         ...
       }: {
-        devShells.js = pkgs.mkShell {
-          name = "js";
+        devShells.web = pkgs.mkShell {
+          name = "web";
           buildInputs = with pkgs; [
             nodejs
             typescript
           ];
         };
-        devShells.default = self'.devShells.js;
+        devShells.default = self'.devShells.web;
         formatter = pkgs.alejandra;
       };
     });
