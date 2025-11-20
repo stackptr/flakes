@@ -37,6 +37,7 @@
         devShells.web = pkgs.mkShell {
           name = "web";
           buildInputs = with pkgs; [
+            deno
             nodejs
             typescript
           ];
