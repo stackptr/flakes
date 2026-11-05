@@ -14,15 +14,6 @@
       ...
     }: {
       flake = {
-        nixConfig = {
-          experimental-features = ["nix-command" "flakes"];
-          extra-substituters = [
-            "https://stackptr.cachix.org"
-          ];
-          extra-trusted-public-keys = [
-            "stackptr.cachix.org-1:5e2q7OxdRdAtvRmHTeogpgJKzQhbvFqNMmCMw71opZA="
-          ];
-        };
         templates.default = {
           path = ./templates/default;
           description = "Flake template with preferred formatter and libs";
